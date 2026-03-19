@@ -290,7 +290,7 @@ PRs waiting for review at any given time.
 |:-------|:-----------------|:-------------|:-------|
 | **Customer-reported bugs** | Quality as experienced by users | Support tickets tagged as bugs | Trending down |
 | **Incident frequency** | Production stability | PagerDuty, Opsgenie | Stable or declining |
-| **MTTR** | How quickly you fix production problems | Incident timestamps | <1hr critical, <4hr standard |
+| **MTTR ([Mean Time to Repair](https://limble.com/learn/mean-time-to-repair))** | How quickly you fix production problems | Incident timestamps | <1hr critical, <4hr standard |
 | **Feature adoption** | Whether shipped work gets used | Product analytics (Amplitude, Mixpanel) | Meets adoption targets |
 | **Time-to-value** | End-to-end from idea to customer value | Ticket lifecycle tracking | Trending down |
 
