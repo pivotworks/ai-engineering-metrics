@@ -396,9 +396,9 @@ Review depth down (L3) ──► AI override rate down (L3)
 
 ---
 
-## Implementation Roadmap
+# Implementation Roadmap
 
-### Phase 1: Baseline (Week 1-2)
+## Phase 1: Baseline (Week 1-2)
 
 **Objective:** Get signal with minimal tooling investment.
 
@@ -408,7 +408,7 @@ Review depth down (L3) ──► AI override rate down (L3)
 | ☐ Defect escape rate | L2 | Defect tracker with stage tagging |
 | ☐ Customer-reported bugs | L4 | Support ticket system |
 
-### Phase 2: Process Visibility (Month 1)
+## Phase 2: Process Visibility (Month 1)
 
 **Objective:** Understand why quality metrics move.
 
@@ -418,7 +418,7 @@ Review depth down (L3) ──► AI override rate down (L3)
 | ☐ Guardrail freshness | L3 | Simple git log script |
 | ☐ AI attribution tagging | L2 | Commit convention `[ai-assisted]` |
 
-### Phase 3: Full Stack (Month 2-3)
+## Phase 3: Full Stack (Month 2-3)
 
 **Objective:** Complete visibility across all layers.
 
@@ -431,7 +431,7 @@ Review depth down (L3) ──► AI override rate down (L3)
 | ☐ Connected dashboards | All | Engineering analytics platform |
 | ☐ Thresholds and alerts | All | Custom configuration |
 
-### Phase 4: Calibration (Ongoing)
+## Phase 4: Calibration (Ongoing)
 
 | Activity | Cadence |
 |:---------|:--------|
