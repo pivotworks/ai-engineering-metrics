@@ -1,6 +1,6 @@
 # Diagnostic Patterns
 
-[← Back to Overview](../)
+[← Back to Overview](http://github.com/pivotworks/ai-engineering-metrics/blob/main/README.md)
 
 Common failure modes and how to fix them.
 
