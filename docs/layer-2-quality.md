@@ -1,6 +1,6 @@
 # Layer 2: Quality Metrics
 
-[← Back to Overview](../)
+[← Back to Overview](http://github.com/pivotworks/ai-engineering-metrics/blob/main/README.md)
 
 **Purpose:** Measure whether the work is actually good. This is where AI-generated problems surface.
 
