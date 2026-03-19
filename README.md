@@ -443,7 +443,7 @@ Review depth down (L3) ──► AI override rate down (L3)
 
 ---
 
-## What This Doesn't Solve
+# What This Doesn't Solve
 
 Metrics don't create clarity. They create the conditions for clarity if someone is willing to do the work of interpretation.
 
