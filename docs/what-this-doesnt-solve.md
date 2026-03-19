@@ -1,6 +1,6 @@
 # What This Doesn't Solve
 
-[← Back to Overview](../)
+[← Back to Overview](http://github.com/pivotworks/ai-engineering-metrics/blob/main/README.md)
 
 Metrics don't create clarity. They create the conditions for clarity if someone is willing to do the work of interpretation.
 
