@@ -2,7 +2,6 @@
 
 > A four-layer framework for measuring what actually matters
 
-[![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
 
 If you're still measuring engineering productivity with PR count, lines of code, or even DORA metrics alone, you're measuring a world that no longer exists.
 
@@ -54,13 +53,7 @@ Particularly interested in:
 
 ## Related Reading
 
-- [The Guardrail Maintenance Problem](docs/guardrail-maintenance-problem.md) — Why AI instruction files rot like Confluence pages
-
----
-
-## License
-
-This work is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). You're free to share and adapt with attribution.
+- [The Guardrail Maintenance Problem]([docs/guardrail-maintenance-problem.md](https://invisiblefailure.substack.com/p/the-ai-guardrail-maintenance-problem)) — Why AI instruction files rot like Confluence pages
 
 ---
 
