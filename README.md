@@ -10,295 +10,20 @@ AI-augmented teams need a new metrics stack. Not because the old metrics are wro
 
 ---
 
-## Table of Contents
-
-- [The Four Layers](#the-four-layers)
-- [Layer 1: Output Metrics](#layer-1-output-metrics)
-- [Layer 2: Quality Metrics](#layer-2-quality-metrics)
-- [Layer 3: Process Metrics](#layer-3-process-metrics)
-- [Layer 4: Outcome Metrics](#layer-4-outcome-metrics)
-- [How the Layers Connect](#how-the-layers-connect)
-- [Diagnostic Patterns](#diagnostic-patterns)
-- [Implementation Roadmap](#implementation-roadmap)
-- [What This Doesn't Solve](#what-this-doesnt-solve)
-- [Contributing](#contributing)
-
----
-
 ## The Four Layers
 
 A complete metrics stack has four layers. Most teams only have one or two.
 
-| Layer | What It Measures | Signal Type |
-|:------|:-----------------|:------------|
-| **Layer 1: Output** | Volume of work produced | Lagging, easily gamed |
-| **Layer 2: Quality** | Whether the work is good | Lagging, harder to game |
-| **Layer 3: Process** | Whether the system is healthy | Leading, diagnostic |
-| **Layer 4: Outcome** | Whether it matters to the business | Lagging, ground truth |
+| Layer | What It Measures | Signal Type | |
+|:------|:-----------------|:------------|:--|
+| **Layer 1: Output** | Volume of work produced | Lagging, easily gamed | [→ Metrics](docs/layer-1-output.md) |
+| **Layer 2: Quality** | Whether the work is good | Lagging, harder to game | [→ Metrics](docs/layer-2-quality.md) |
+| **Layer 3: Process** | Whether the system is healthy | Leading, diagnostic | [→ Metrics](docs/layer-3-process.md) |
+| **Layer 4: Outcome** | Whether it matters to the business | Lagging, ground truth | [→ Metrics](docs/layer-4-outcome.md) |
 
 **Key insight:** Output without quality is noise. Quality without outcome is vanity. Process metrics without the other layers are just activity tracking. You need all four layers to understand what's actually happening.
 
 <img width="1408" height="768" alt="modern_AIAugmented_metrics_layers" src="https://github.com/user-attachments/assets/15d0dcd8-b7be-4fa3-9d0f-f29a6ddff988" />
-
----
-
-## Layer 1: Output Metrics
-
-**Purpose:** Measure volume of work. Use for context, not evaluation.
-
-These metrics are easy to collect and easy to game. AI has made them trivially inflatable. The creator of Claude Code pushes 50 to 100 PRs per week using parallel AI agents. That's not a criticism of his productivity. It's a signal that PR count no longer means what it used to mean.
-
-| Metric | What It Measures | How to Track | Limitations |
-|:-------|:-----------------|:-------------|:------------|
-| **PR count / merge frequency** | How much code is shipping | Native in GitHub/GitLab | Inflated by AI, gameable by splitting work |
-| **Deployment frequency** | How often you release to production | CI/CD pipeline logs, DORA tooling | More deployments only good if deployments are good |
-| **Commit frequency** | Activity signal | Git log analysis | Tells you nothing about value |
-| **Lines of code** | Volume of code changes | Git diff analysis, GitClear | Best work often reduces LOC |
-
-### Usage Guidelines
-
-- ✅ Track at team level, not individual
-- ✅ Use trend lines, not absolutes
-- ✅ Treat as context for other metrics
-- ❌ Don't use for standalone evaluation
-- ❌ Don't evaluate engineers based on PR count
-
-> **⚠️ Warning sign:** If Layer 1 metrics are your primary dashboard, you're measuring activity, not productivity.
-
----
-
-## Layer 2: Quality Metrics
-
-**Purpose:** Measure whether the work is actually good. This is where AI-generated problems surface.
-
-These metrics require more infrastructure to track but are much harder to game. They catch what output metrics miss: code that shipped fast but shouldn't have, work that creates more work, and the hidden costs of speed.
-
-### Metrics at a Glance
-
-| Metric | Target | Key Signal |
-|:-------|:-------|:-----------|
-| [Code Churn Rate](#code-churn-rate) | <10% | Shipping fast but creating rework |
-| [Rework Ratio](#rework-ratio) | <15% | Hidden costs of AI-generated code |
-| [Time-to-Rework](#time-to-rework) | >30 days | Review process not catching issues |
-| [Defect Escape Rate](#defect-escape-rate) | Trending ↓ | Tests not catching what matters |
-| [Defect Attribution](#defect-attribution) | Baseline first | AI ROI analysis foundation |
-
----
-
-#### Code Churn Rate
-
-Lines reverted or modified within 14-21 days.
-
-**Why it matters:** GitClear research projects code churn will double by 2026 due to AI-generated code. High churn means you're shipping faster but creating rework.
-
-| | |
-|:--|:--|
-| **Formula** | `(lines modified within window / total lines committed) * 100` |
-| **Target** | Below 10% for mature codebases. Above 15% indicates systemic issues. |
-| **How to track** | Git analysis comparing commits to subsequent modifications. [GitClear](https://gitclear.com) provides this out of the box. |
-
----
-
-#### Rework Ratio
-
-Percentage of effort spent fixing previous work.
-
-**Why it matters:** AI can inflate output while creating hidden rework costs. If you ship twice as much but spend 40% of your time fixing it, you're not ahead.
-
-| | |
-|:--|:--|
-| **Formula** | `(story points on rework tickets / total story points) * 100` |
-| **Target** | Below 15% of total effort. Spikes above 25% indicate quality problems upstream. |
-| **How to track** | Tag tickets/PRs as "rework," "fix," "bugfix," or link to original implementation. |
-
----
-
-#### Time-to-Rework
-
-How long code survives before requiring intervention.
-
-**Why it matters:** Short time-to-rework means the review process isn't catching issues. The code looked fine, passed review, then broke quickly.
-
-| | |
-|:--|:--|
-| **Formula** | `median(first_fix_timestamp - merge_timestamp)` for commits requiring fixes |
-| **Target** | Greater than 30 days = acceptable. Under 7 days = significant problems. |
-| **How to track** | Track time delta between initial merge commit and first fix commit touching the same files/functions. |
-
----
-
-#### Defect Escape Rate
-
-Bugs found in production vs. caught during development.
-
-**Why it matters:** If production defect rate is rising while test coverage looks good, your tests aren't catching what matters.
-
-| | |
-|:--|:--|
-| **Formula** | `(production defects / total defects) * 100` |
-| **Target** | Trending down over time. Absolute numbers depend on your context. |
-| **How to track** | Defect tracking with stage attribution. Tag where defects were found: unit test, integration test, QA, staging, production. |
-
----
-
-#### Defect Attribution
-
-Which defects trace to AI-generated vs. human-written code.
-
-**Why it matters:** Without this, you can't evaluate whether AI is helping or creating hidden costs. This is the baseline for any AI ROI analysis.
-
-| | |
-|:--|:--|
-| **Implementation** | Add `[ai-assisted]` or `[ai-generated]` tags to commits. Build reporting that segments defect rates by tag. |
-| **How to track** | Tag AI-generated code at commit time. Add metadata or commit message conventions. Then link defects to originating commits. |
-
----
-
-### Layer 2 Usage Guidelines
-
-- Compare AI-generated versus human-generated code quality once you have attribution
-- Identify patterns: certain types of AI-generated work that consistently need rework
-- Set thresholds that trigger process changes
-
-> **⚠️ Warning sign:** Quality metrics flat while output metrics spike means you're creating future problems at an accelerated rate.
-
----
-
-## Layer 3: Process Metrics
-
-**Purpose:** Measure whether humans are actually engaged or just rubber-stamping. These are leading indicators that predict quality problems before they surface in production.
-
-### Metrics at a Glance
-
-| Metric | Target | Key Signal |
-|:-------|:-------|:-----------|
-| [Review Depth](#review-depth) | ≥1 comment/PR | Humans disengaging from oversight |
-| [AI Override Rate](#ai-override-rate) | 20-40% | Rubber-stamping vs. healthy skepticism |
-| [Guardrail Freshness](#guardrail-freshness) | <30 days | AI following outdated instructions |
-| [Guardrail Coverage](#guardrail-coverage) | Audit quarterly | System not learning from mistakes |
-| [Time-to-First-Review](#time-to-first-review) | <4 hours | Review bottleneck forming |
-| [Review Queue Depth](#review-queue-depth) | Stable/declining | Pressure to rubber-stamp building |
-
----
-
-#### Review Depth
-
-Substantive engagement vs. rubber-stamping.
-
-**Why it matters:** If review depth drops while output rises, humans are disengaging from oversight. The review becomes a checkbox, not a quality gate.
-
-| | |
-|:--|:--|
-| **Target** | Average ≥1 substantive comment per PR. >30% PRs approved without comments = warning sign. |
-| **How to track** | GitHub/GitLab APIs: comments per PR, changes requested, review time. |
-
-**Signals to track:**
-- Comments per PR (excluding bot comments)
-- Percentage of PRs with changes requested
-- Time spent in review (from first review request to approval)
-- Percentage of PRs approved without comments
-
----
-
-#### AI Override Rate
-
-How often engineers reject or modify AI suggestions.
-
-**Why it matters:** Engineers should be evaluating AI output, not accepting it blindly. Override rate is a proxy for human judgment remaining in the loop.
-
-| | |
-|:--|:--|
-| **Target** | 20-40% = healthy engagement. <10% = rubber-stamping. >60% = AI misconfigured for your codebase. |
-| **How to track** | IDE telemetry (Copilot/Cursor) or commit analysis comparing AI suggestions to final code. Some tools provide this natively. |
-
----
-
-#### Guardrail Freshness
-
-When AI instruction files were last meaningfully updated.
-
-**Why it matters:** Stale guardrails mean AI is following outdated instructions. The codebase evolves, the guardrails should evolve with it.
-
-| | |
-|:--|:--|
-| **Target** | Meaningful updates within the last 30 days for active codebases. |
-| **How to track** | Git log on guardrail files (CLAUDE.md, .cursorrules, etc.). Filter out formatting-only changes. |
-
-**Quick check:**
-```bash
-git log -1 --format="%ar" -- CLAUDE.md .cursorrules
-```
-
----
-
-#### Guardrail Coverage
-
-Whether repeated mistakes are being captured as guardrails.
-
-**Why it matters:** If the same types of mistakes keep happening, the guardrails aren't learning. The system isn't compounding.
-
-| | |
-|:--|:--|
-| **Implementation** | Add "guardrail candidate" as an incident retro field. Track which candidates get implemented. |
-| **How to track** | Manual audit. Review incident retros and ask: "Should this have been a guardrail? Is it one now?" |
-
----
-
-#### Time-to-First-Review
-
-How long PRs wait before someone looks.
-
-**Why it matters:** Long review queues create pressure to skip review or approve quickly. This metric predicts review depth problems.
-
-| | |
-|:--|:--|
-| **Target** | <4 hours for standard PRs. <1 hour for critical paths. |
-| **How to track** | GitHub/GitLab APIs. Delta between PR open time and first review action. |
-
----
-
-#### Review Queue Depth
-
-PRs waiting for review at any given time.
-
-**Why it matters:** AI increases PR volume. If review capacity doesn't scale, queues grow, and pressure to rubber-stamp increases.
-
-| | |
-|:--|:--|
-| **Target** | Team-dependent, but growing queue is always a warning sign. |
-| **How to track** | Snapshot counts from GitHub/GitLab API, tracked over time. |
-
----
-
-### Layer 3 Diagnostic Guide
-
-| Symptom | Check | Likely Cause |
-|:--------|:------|:-------------|
-| Quality dropping | Review depth | Reviews getting shallower |
-| Same mistakes repeating | Guardrail freshness/coverage | Stale or missing guardrails |
-| Override rate dropping | Quality metrics | Rubber-stamping if quality also down |
-
-> **⚠️ Warning sign:** Review depth down + override rate down + guardrails stale = quality collapse incoming.
-
----
-
-## Layer 4: Outcome Metrics
-
-**Purpose:** Connect engineering work to business results. This is ground truth. Everything else is proxy.
-
-| Metric | What It Measures | How to Track | Target |
-|:-------|:-----------------|:-------------|:-------|
-| **Customer-reported bugs** | Quality as experienced by users | Support tickets tagged as bugs | Trending down |
-| **Incident frequency** | Production stability | PagerDuty, Opsgenie | Stable or declining |
-| **MTTR ([Mean Time to Repair](https://limble.com/learn/mean-time-to-repair))** | How quickly you fix production problems | Incident timestamps | <1hr critical, <4hr standard |
-| **Feature adoption** | Whether shipped work gets used | Product analytics (Amplitude, Mixpanel) | Meets adoption targets |
-| **Time-to-value** | End-to-end from idea to customer value | Ticket lifecycle tracking | Trending down |
-
-### Usage Guidelines
-
-Validate that improvements in Layers 1-3 actually translate to outcomes.
-
-> **⚠️ Warning sign:** Layers 1-3 look great, Layer 4 is flat or declining. You're optimizing the wrong things.
 
 ---
 
@@ -396,54 +121,46 @@ Review depth down (L3) ──► AI override rate down (L3)
 
 ---
 
-# Implementation Roadmap
+## Implementation Roadmap
 
-## Phase 1: Baseline (Week 1-2)
+### Phase 1: Baseline — Week 1-2
 
-**Objective:** Get signal with minimal tooling investment.
+Get signal with minimal tooling investment. No new tools required.
 
-| Implement | Layer | Tooling Required |
-|:----------|:------|:-----------------|
-| ☐ Code churn tracking | L2 | Git access, GitClear or custom scripts |
-| ☐ Defect escape rate | L2 | Defect tracker with stage tagging |
-| ☐ Customer-reported bugs | L4 | Support ticket system |
+- [ ] **Code churn tracking** — Git access + [GitClear](https://gitclear.com) or custom scripts
+- [ ] **Defect escape rate** — Defect tracker with stage tagging
+- [ ] **Customer-reported bugs** — Support ticket system
 
-## Phase 2: Process Visibility (Month 1)
+### Phase 2: Process Visibility — Month 1
 
-**Objective:** Understand why quality metrics move.
+Understand why quality metrics move.
 
-| Implement | Layer | Tooling Required |
-|:----------|:------|:-----------------|
-| ☐ Review depth tracking | L3 | GitHub/GitLab API access |
-| ☐ Guardrail freshness | L3 | Simple git log script |
-| ☐ AI attribution tagging | L2 | Commit convention `[ai-assisted]` |
+- [ ] **Review depth tracking** — GitHub/GitLab API access
+- [ ] **Guardrail freshness** — Simple git log script
+- [ ] **AI attribution tagging** — Commit convention `[ai-assisted]`
 
-## Phase 3: Full Stack (Month 2-3)
+### Phase 3: Full Stack — Month 2-3
 
-**Objective:** Complete visibility across all layers.
+Complete visibility across all layers.
 
-| Implement | Layer | Tooling Required |
-|:----------|:------|:-----------------|
-| ☐ Rework ratio with tagging | L2 | Ticket hygiene discipline |
-| ☐ AI override rate | L3 | IDE telemetry or code analysis |
-| ☐ Time-to-rework | L2 | Linking fixes to original commits |
-| ☐ Full outcome metrics | L4 | Product analytics integration |
-| ☐ Connected dashboards | All | Engineering analytics platform |
-| ☐ Thresholds and alerts | All | Custom configuration |
+- [ ] **Rework ratio** — Ticket hygiene discipline
+- [ ] **AI override rate** — IDE telemetry or code analysis
+- [ ] **Time-to-rework** — Link fixes to original commits
+- [ ] **Full outcome metrics** — Product analytics integration
+- [ ] **Connected dashboards** — Engineering analytics platform
+- [ ] **Thresholds and alerts** — Custom configuration
 
-## Phase 4: Calibration (Ongoing)
+### Phase 4: Calibration — Ongoing
 
-| Activity | Cadence |
-|:---------|:--------|
-| Review thresholds | Quarterly |
-| Guardrail audit | Quarterly |
-| Outcome correlation analysis | Quarterly |
-| Attribution accuracy check | Monthly |
-| Metrics review | Monthly |
+| Quarterly | Monthly |
+|:----------|:--------|
+| Review thresholds | Attribution accuracy check |
+| Guardrail audit | Metrics review |
+| Outcome correlation analysis | |
 
 ---
 
-# What This Doesn't Solve
+## What This Doesn't Solve
 
 Metrics don't create clarity. They create the conditions for clarity if someone is willing to do the work of interpretation.
 
