@@ -1,6 +1,6 @@
 # Layer 1: Output Metrics
 
-[← Back to Overview](../README.md)
+[← Back to Overview](../)
 
 **Purpose:** Measure volume of work. Use for context, not evaluation.
 
@@ -35,6 +35,6 @@ These metrics are easy to collect and easy to game. AI has made them trivially i
 
 ---
 
-## Next Layer
+## Navigation
 
-Output metrics tell you how much. [Layer 2: Quality Metrics](layer-2-quality.md) tell you whether it's any good.
+[Layer 2: Quality →](layer-2-quality.md)

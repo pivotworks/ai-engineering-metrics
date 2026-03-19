@@ -1,6 +1,6 @@
 # Layer 2: Quality Metrics
 
-[← Back to Overview](../README.md)
+[← Back to Overview](../)
 
 **Purpose:** Measure whether the work is actually good. This is where AI-generated problems surface.
 
@@ -105,4 +105,4 @@ Which defects trace to AI-generated vs. human-written code.
 
 ## Navigation
 
-← [Layer 1: Output](layer-1-output.md) · [Layer 3: Process](layer-3-process.md) →
+[← Layer 1: Output](layer-1-output.md) · [Layer 3: Process →](layer-3-process.md)

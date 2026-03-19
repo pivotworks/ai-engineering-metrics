@@ -1,6 +1,6 @@
 # Layer 4: Outcome Metrics
 
-[← Back to Overview](../README.md)
+[← Back to Overview](../)
 
 **Purpose:** Connect engineering work to business results. This is ground truth. Everything else is proxy.
 
@@ -48,4 +48,4 @@ Use Layer 4 to validate. Use Layers 1-3 to diagnose and predict.
 
 ## Navigation
 
-← [Layer 3: Process](layer-3-process.md) · [Back to Overview](../README.md)
+[← Layer 3: Process](layer-3-process.md) · [How the Layers Connect →](how-layers-connect.md)

@@ -1,6 +1,6 @@
 # Layer 3: Process Metrics
 
-[← Back to Overview](../README.md)
+[← Back to Overview](../)
 
 **Purpose:** Measure whether humans are actually engaged or just rubber-stamping. These are leading indicators that predict quality problems before they surface in production.
 
@@ -128,4 +128,4 @@ PRs waiting for review at any given time.
 
 ## Navigation
 
-← [Layer 2: Quality](layer-2-quality.md) · [Layer 4: Outcome](layer-4-outcome.md) →
+[← Layer 2: Quality](layer-2-quality.md) · [Layer 4: Outcome →](layer-4-outcome.md)
