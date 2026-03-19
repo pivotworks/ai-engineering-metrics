@@ -1,6 +1,6 @@
 # How the Layers Connect
 
-[← Back to Overview](../)
+[← Back to Overview](http://github.com/pivotworks/ai-engineering-metrics/blob/main/README.md)
 
 The stack is diagnostic. When something breaks, you trace through the layers to find the cause.
 
